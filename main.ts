@@ -8,12 +8,17 @@
 // Node 22, standard library only. Outside the grader's container,
 // MAKEFUN_OUTPUT_DIR stands in for /output:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+//
+// The copy is byte-for-byte deterministic: the program reads only the bundled
+// entry.png and writes it unchanged, with no render, transform or timestamp, so
+// two runs produce identical bytes.
 
 import { copyFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const entryImage = new URL('./entry.png', import.meta.url);
 const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
-const outputImage = join(outputDir, 'entry.png');
+const OUTPUT_NAME = 'entry.png';
+const outputImage = join(outputDir, OUTPUT_NAME);
 
 copyFileSync(entryImage, outputImage);
